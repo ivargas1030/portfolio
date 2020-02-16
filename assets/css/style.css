@@ -192,43 +192,35 @@ h3, h2 {
     margin-right: 25px;
 }
   
-/* contact page */
+/* index page */
   
-#contact-form ul {
-    margin-bottom: 20px;
+#can {
+    margin-left: 232px;
 }
   
-#contact-form li {
-    margin-bottom: 10px;
+.home_canvas--subtitle {
+    margin-left: 6%;
+    text-align: center;
+    margin-bottom: 0;
 }
-  
-label,
-input[type=text],
-input[type=email],
-textarea {
-    display: block;
+
+#index-container {
+    padding-top: 130px;
+    min-height: calc(100vh - 70px);
+}
+
+.index-section {
+    float: left;
     width: 100%;
-}
-  
-input[type=text],
-input[type=email],
-textarea {
-    height: 35px;
-    padding: 0 10px;
-    font-size: 14px;
+    max-width: 960px;
+    padding: 30px;
+    margin: 0 0 40px;
+    background: hotpink;
     border: 1px solid #dddddd;
 }
-  
-textarea {
-    height: 200px;
+
+.index-header {
+    text-align: center;
 }
   
-input[type=submit] {
-    padding: 10px 30px;
-    font-size: 18px;
-    color: #ffffff;
-    cursor: pointer;
-    background: lightskyblue;
-    border: 0 none;
-}
   

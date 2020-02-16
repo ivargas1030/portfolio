@@ -1,58 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-us">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/style.css" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <title>Home | Iliana Vargas</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+  <title>Home | Iliana Vargas</title>
 </head>
-<body>
-    <header id="masthead">
-        <div class="container">
-          <a href="index.html" id="logo">Iliana Vargas</a>
-          <nav>
-            <a href="index.html">About</a>
-            <a href="works.html">Work</a>
-            <a href="contact.html">Contact</a>
-          </nav>
-        </div>
-    </header>
-    
-    <div id="main-container" class="container">
-        <section class="main-section">
-          <h1>About Me</h1>
-          <ul id='contact'>
-            <li class="infoicon">
-                <a href="img/resume19.pdf" target="_blank" title="resume" class="about-link far fa-file-alt" download></a>
-            </li>
-            <li class="infoicon">
-                <a href="https://www.github.com/ivargas1030" target="_blank" title="github" class="about-link fab fa-github"></a>
-            </li>
-            <li class="infoicon">
-                <a href="https://www.linkedin.com/in/iliana-vargas-a7a28919b/" target="_blank" title="linkedin" class="about-link fab fa-linkedin"></a>
-            </li>
-            <li class="infoicon">
-                <a href="mailto:iliana.vargas@northwestern.edu" title="email me!" class="about-link far fa-envelope"></a>
-            </li>
-          </ul>
-    
-          <img src="assets/imgs/headshot.jpg" class="main-image" alt="Iliana Vargas">
-    
-          <p>Hey there! My name is Iliana and I am a finance guru 💲, mother 🤰🏽, and geekdom enthusiast  🧝‍♀️. Currently I work as a Financial Assistant at Northwestern University where I specialize in graduate student funding and managing faculty grant portfolios. I am a graduate 👩🏽‍🎓 of the University of Illinois at Chicago (undergrad) and Northwestern University (grad).</p>
-    
-          <p>My personal interests include collecting anything with Hello Kitty, cosplaying at Comic Conventions and traveling ✈️ the world. I have started getting my son involved with my cosplay, in 2019 I took my son to his first convention where we went as Princess Leia and an Ewok from Return of the Jedi. In terms of traveling I have been to 10 countries so far. I believe that traveling the world gives one a different perspective and teaches people to be accepting of others.</p>
-    
-          <p>I am currently attending the Northwestern Coding Bootcamp where I hope to gain skills to become a full stack web developer 💻. Coding has been a long interest of mine and I am excited for the opportunity to be a part of this program.</p>
-    
-        </section>
-    
+<script type="text/javascript">
+  var canvas, ctx, flag = false,
+    prevX = 0,
+    currX = 0,
+    prevY = 0,
+    currY = 0,
+    dot_flag = false;
+
+  var x = "black",
+      y = 2;
+  
+  function init() {
+    canvas = document.getElementById('can');
+    ctx = canvas.getContext("2d");
+    w = canvas.width;
+    h = canvas.height;
+
+    canvas.addEventListener("mousemove", function (e) {
+        findxy('move', e)
+    }, false);
+    canvas.addEventListener("mousedown", function (e) {
+        findxy('down', e)
+    }, false);
+    canvas.addEventListener("mouseup", function (e) {
+        findxy('up', e)
+    }, false);
+    canvas.addEventListener("mouseout", function (e) {
+        findxy('out', e)
+    }, false);
+  }
+  
+  function color(obj) {
+    switch (obj.id) {
+      case "green":
+        x = "green";
+        break;
+      case "blue":
+        x = "blue";
+        break;
+      case "red":
+        x = "red";
+        break;
+      case "yellow":
+        x = "yellow";
+        break;
+      case "orange":
+        x = "orange";
+        break;
+      case "black":
+        x = "black";
+        break;
+      case "white":
+        x = "white";
+        break;
+      }
+    if (x == "white") y = 14;
+    else y = 2;
+  }
+  
+  function draw() {
+    ctx.beginPath();
+    ctx.moveTo(prevX, prevY);
+    ctx.lineTo(currX, currY);
+    ctx.strokeStyle = x;
+    ctx.lineWidth = y;
+    ctx.stroke();
+    ctx.closePath();
+  }
+  
+  function erase() {
+    var m = confirm("Want to clear");
+    if (m) {
+      ctx.clearRect(0, 0, w, h);
+      document.getElementById("canvasimg").style.display = "none";
+    }
+  }
+  
+  function save() {
+    document.getElementById("canvasimg").style.border = "2px solid";
+    var dataURL = canvas.toDataURL();
+    document.getElementById("canvasimg").src = dataURL;
+    document.getElementById("canvasimg").style.display = "inline";
+  }
+  
+  function findxy(res, e) {
+    if (res == 'down') {
+      prevX = currX;
+      prevY = currY;
+      currX = e.clientX - canvas.offsetLeft;
+      currY = e.clientY - canvas.offsetTop;
+
+      flag = true;
+      dot_flag = true;
+      if (dot_flag) {
+        ctx.beginPath();
+        ctx.fillStyle = x;
+        ctx.fillRect(currX, currY, 2, 2);
+        ctx.closePath();
+        dot_flag = false;
+      }
+    }
+    if (res == 'up' || res == "out") {
+      flag = false;
+    }
+    if (res == 'move') {
+      if (flag) {
+        prevX = currX;
+        prevY = currY;
+        currX = e.clientX - canvas.offsetLeft;
+        currY = e.clientY - canvas.offsetTop;
+        draw();
+      }
+    }
+  }
+</script>
+
+<body onload="init()">
+
+  <header id="masthead">
+    <div class="container">
+      <a href="index.html" id="logo">Iliana Vargas</a>
+      <nav>
+        <a href="about.html">About</a>
+        <a href="works.html">Work</a>
+      </nav>
     </div>
-    
-    <footer>
-        <div class="container">
-          Copyright &copy; 2020 Iliana Vargas
-        </div>
-    </footer>
+  </header>
+
+  <div id="index-container" class="container">
+    <section class="index-section">
+      <h1 class="index-header">Welcome to my Website!</h1>
+      <div class='home_canvas'>
+        <p class='home_canvas--subtitle'>Click on the canvas and draw whatever you'd like!</p>
+        <canvas id="can" width="475" height="575" style="background-color: white; border:2px solid;"></canvas>
+        <img id="canvasimg" style="display:none;">
+      </div>
+      
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      Copyright &copy; 2020 Iliana Vargas
+    </div>
+  </footer>
 </body>
+
 </html>
