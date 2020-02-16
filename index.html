@@ -7,6 +7,8 @@
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
   <title>Home | Iliana Vargas</title>
 </head>
+<!-- This script is for the canvas. -->
+<!-- This function was taken from a website but I have modified it to work on my page. -->
 <script type="text/javascript">
   var canvas, ctx, flag = false,
     prevX = 0,
@@ -124,8 +126,8 @@
 </script>
 
 <body onload="init()">
-
-  <header id="masthead">
+  
+  <header id="navbar">
     <div class="container">
       <a href="index.html" id="logo">Iliana Vargas</a>
       <nav>
@@ -139,7 +141,7 @@
     <section class="index-section">
       <h1 class="index-header">Welcome to my Website!</h1>
       <div class='home_canvas'>
-        <p class='home_canvas--subtext'>Click on the canvas and draw whatever you'd like!</p>
+        <p class='home_canvas--subtext'>Have some fun by drawing on the canvas below!</p>
         <canvas id="canvas" width="475" height="575" style="background-color: white; border:2px solid;"></canvas>
         <img id="canvasimg" style="display:none;">
       </div>
