@@ -194,11 +194,11 @@ h3, h2 {
   
 /* index page */
   
-#can {
+#canvas {
     margin-left: 232px;
 }
   
-.home_canvas--subtitle {
+.home_canvas--subtext {
     margin-left: 6%;
     text-align: center;
     margin-bottom: 0;
