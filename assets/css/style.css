@@ -147,6 +147,15 @@ h3, h2 {
     margin: 0 0 40px;
     background: #ffffff;
     border: 1px solid #dddddd;
+    border-radius: 25px;
+}
+
+.main-image {
+    float: left;
+    width: 200px;
+    height: auto;
+    margin-top: 10px;
+    margin-right: 25px;
 }
   
 /* portfolio page */
@@ -184,13 +193,6 @@ h3, h2 {
     border-bottom: 0;
 }
   
-.main-image {
-    float: left;
-    width: 200px;
-    height: auto;
-    margin-top: 10px;
-    margin-right: 25px;
-}
   
 /* index page */
   
@@ -224,6 +226,7 @@ h3, h2 {
     margin: 0 0 40px;
     background: hotpink;
     border: 1px solid #dddddd;
+    border-radius: 25px;
 }
 
 .index-header {
