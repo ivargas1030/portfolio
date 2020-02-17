@@ -53,7 +53,7 @@ h3 {
 /* header */
   
 #navbar {
-    position: fixed;
+    position: relative;
     z-index: 99;
     width: 100%;
     margin: 0 0 30px;
@@ -135,7 +135,6 @@ h3, h2 {
 /* main */
   
 #main-container {
-    padding-top: 130px;
     min-height: calc(100vh - 70px);
 }
   
@@ -194,17 +193,25 @@ h3, h2 {
   
 /* index page */
   
-#canvas {
+#sketchpad {
     margin-left: 210px;
 }
   
-.index-canvas--subtext {
+.index-sketchpad--subtext {
     text-align: center;
     margin-bottom: 0;
 }
 
+.index-sketchpad {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 #index-container {
-    padding-top: 130px;
     min-height: calc(100vh - 70px);
 }
 
@@ -223,16 +230,17 @@ h3, h2 {
 }
  
 @media screen and (max-width: 800px) {
- #canvas {
+ #sketchpad {
       display: none !important;
     }
   
-    .index-canvas--subtitle {
+    .index-sketchpad--subtext {
       display: none !important;
     }
   
-    .index-canvas {
+    .index-sketchpad {
       width: 0 !important;
     }
+    
 }  
   

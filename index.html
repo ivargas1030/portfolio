@@ -7,121 +7,118 @@
   <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
   <title>Home | Iliana Vargas</title>
 </head>
-<!-- This script is for the canvas. -->
-<!-- This function was taken from a website but I have modified it to work on my page. -->
+<!-- This script is for the canvas. Taken and adjusted from https://zipso.net/sketchpad/sketchpad-lines.txt-->
+
 <script type="text/javascript">
-  var canvas, ctx, flag = false,
-    prevX = 0,
-    currX = 0,
-    prevY = 0,
-    currY = 0,
-    dot_flag = false;
+  var canvas,ctx; 
+  var mouseX,mouseY,mouseDown=0;
+  var touchX,touchY;
+  var lastX,lastY=-1;
 
-  var x = "black",
-      y = 2;
-  
+  function drawLine(ctx,x,y,size) {
+ 
+      if (lastX==-1) {
+          lastX=x;
+    lastY=y;
+      }
+
+      r=0; g=0; b=0; a=255;
+
+      ctx.strokeStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
+      ctx.lineCap = "round";
+      ctx.beginPath();
+
+ctx.moveTo(lastX,lastY);
+
+ctx.lineTo(x,y);
+
+      ctx.lineWidth = size;
+      ctx.stroke();
+
+      ctx.closePath();
+
+lastX=x;
+lastY=y;
+  } 
+
+  function clearCanvas(canvas,ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function sketchpad_mouseDown() {
+      mouseDown=1;
+      drawLine(ctx,mouseX,mouseY,2);
+  }
+
+  function sketchpad_mouseUp() {
+      mouseDown=0;
+      lastX=-1;
+      lastY=-1;
+  }
+
+  function sketchpad_mouseMove(e) { 
+      getMousePos(e);
+      if (mouseDown==1) {
+          drawLine(ctx,mouseX,mouseY,2);
+      }
+  }
+
+  function getMousePos(e) {
+      if (!e)
+          var e = event;
+
+      if (e.offsetX) {
+          mouseX = e.offsetX;
+          mouseY = e.offsetY;
+      }
+      else if (e.layerX) {
+          mouseX = e.layerX;
+          mouseY = e.layerY;
+      }
+   }
+
+  function sketchpad_touchStart() {
+      getTouchPos();
+      drawLine(ctx,touchX,touchY,2);
+      event.preventDefault();
+  }
+
+  function sketchpad_touchEnd() {
+      lastX=-1;
+      lastY=-1;
+  }
+
+  function sketchpad_touchMove(e) { 
+      getTouchPos(e);
+      drawLine(ctx,touchX,touchY,2); 
+      event.preventDefault();
+  }
+
+  function getTouchPos(e) {
+      if (!e)
+          var e = event;
+
+      if(e.touches) {
+          if (e.touches.length == 1) { 
+              var touch = e.touches[0]; 
+              touchX=touch.pageX-touch.target.offsetLeft;
+              touchY=touch.pageY-touch.target.offsetTop;
+          }
+      }
+  }
+
   function init() {
-    canvas = document.getElementById("canvas");
-    ctx = canvas.getContext("2d");
-    w = canvas.width;
-    h = canvas.height;
-
-    canvas.addEventListener("mousemove", function (e) {
-        findxy('move', e)
-    }, false);
-    canvas.addEventListener("mousedown", function (e) {
-        findxy('down', e)
-    }, false);
-    canvas.addEventListener("mouseup", function (e) {
-        findxy('up', e)
-    }, false);
-    canvas.addEventListener("mouseout", function (e) {
-        findxy('out', e)
-    }, false);
-  }
-  
-  function color(obj) {
-    switch (obj.id) {
-      case "green":
-        x = "green";
-        break;
-      case "blue":
-        x = "blue";
-        break;
-      case "red":
-        x = "red";
-        break;
-      case "yellow":
-        x = "yellow";
-        break;
-      case "orange":
-        x = "orange";
-        break;
-      case "black":
-        x = "black";
-        break;
-      case "white":
-        x = "white";
-        break;
+      canvas = document.getElementById('sketchpad');
+      if (canvas.getContext)
+          ctx = canvas.getContext('2d');
+      if (ctx) {
+          canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
+          canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
+          window.addEventListener('mouseup', sketchpad_mouseUp, false);
+          canvas.addEventListener('touchstart', sketchpad_touchStart, false);
+          canvas.addEventListener('touchend', sketchpad_touchEnd, false);
+          canvas.addEventListener('touchmove', sketchpad_touchMove, false);
       }
-    if (x == "white") y = 14;
-    else y = 2;
-  }
-  
-  function draw() {
-    ctx.beginPath();
-    ctx.moveTo(prevX, prevY);
-    ctx.lineTo(currX, currY);
-    ctx.strokeStyle = x;
-    ctx.lineWidth = y;
-    ctx.stroke();
-    ctx.closePath();
-  }
-  
-  function erase() {
-    var m = confirm("Want to clear");
-    if (m) {
-      ctx.clearRect(0, 0, w, h);
-      document.getElementById("canvasimg").style.display = "none";
-    }
-  }
-  
-  function save() {
-    document.getElementById("canvasimg").style.border = "2px solid";
-    var dataURL = canvas.toDataURL();
-    document.getElementById("canvasimg").src = dataURL;
-    document.getElementById("canvasimg").style.display = "inline";
-  }
-  
-  function findxy(res, e) {
-    if (res == 'down') {
-      prevX = currX;
-      prevY = currY;
-      currX = e.clientX - canvas.offsetLeft;
-      currY = e.clientY - canvas.offsetTop;
-
-      flag = true;
-      dot_flag = true;
-      if (dot_flag) {
-        ctx.beginPath();
-        ctx.fillStyle = x;
-        ctx.fillRect(currX, currY, 2, 2);
-        ctx.closePath();
-        dot_flag = false;
-      }
-    }
-    if (res == 'up' || res == "out") {
-      flag = false;
-    }
-    if (res == 'move') {
-      if (flag) {
-        prevX = currX;
-        prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
-        draw();
-      }
-    }
   }
 </script>
 
@@ -131,6 +128,7 @@
     <div class="container">
       <a href="index.html" id="logo">Iliana Vargas</a>
       <nav>
+        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="works.html">Work</a>
       </nav>
@@ -140,14 +138,13 @@
   <div id="index-container" class="container">
     <section class="index-section">
       <h1 class="index-header">Welcome to my Website!</h1>
-      <div class='index-canvas'>
-        <p class='index-canvas--subtext'>Have some fun by drawing on the canvas below!</p>
-        <canvas id="canvas" width="475" height="575" style="background-color: white; border:2px solid;"></canvas>
-        <img id="canvasimg" style="display:none;">
+      <div class="index-sketchpad">
+        <p class="index-sketchpad--subtext">Have some fun by drawing on the sketchpad below!</p>
+        <canvas id="sketchpad" width="475" height="575" style="background-color: white; border:2px solid;"></canvas>
+        <img id="sketchpadimg" style="display:none;">
       </div>
       
     </section>
-
   </div>
 
   <footer>
