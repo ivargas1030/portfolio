@@ -59,7 +59,7 @@ h3 {
     margin: 0 0 30px;
     overflow: auto;
     color: #ffffff;
-    background: hotpink;
+    background-image: url("../imgs/cherryblossoms.jpg");
     border-bottom: 2px solid #cccccc;
 }
   
@@ -87,9 +87,10 @@ nav a {
     padding-left: 15px;
     margin-left: 15px;
     line-height: 18px;
-    color: lightskyblue;
+    color: black;
+    font-weight: 700;
     text-decoration: none;
-    border-left: 1px solid #efefef;
+    border-left: 2px solid black;
 }
   
 nav a:first-child {
