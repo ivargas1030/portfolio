@@ -15,12 +15,13 @@
   var touchX,touchY;
   var lastX,lastY=-1;
 
+
   function drawLine(ctx,x,y,size) {
  
       if (lastX==-1) {
           lastX=x;
-    lastY=y;
-      }
+          lastY=y;
+        }
 
       r=0; g=0; b=0; a=255;
 
@@ -28,19 +29,18 @@
       ctx.lineCap = "round";
       ctx.beginPath();
 
-ctx.moveTo(lastX,lastY);
+      ctx.moveTo(lastX,lastY);
 
-ctx.lineTo(x,y);
+      ctx.lineTo(x,y);
 
       ctx.lineWidth = size;
       ctx.stroke();
 
       ctx.closePath();
 
-lastX=x;
-lastY=y;
+      lastX=x;
+      lastY=y;
   } 
-
   function clearCanvas(canvas,ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
