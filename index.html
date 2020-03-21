@@ -10,130 +10,130 @@
 <!-- This script is for the canvas. Taken and adjusted from https://zipso.net/sketchpad/sketchpad-lines.txt-->
 
 <script type="text/javascript">
-  var canvas,ctx; 
-  var mouseX,mouseY,mouseDown=0;
-  var touchX,touchY;
-  var lastX,lastY=-1;
-  var hue=0
+  var canvas, ctx;
+  var mouseX, mouseY, mouseDown = 0;
+  var touchX, touchY;
+  var lastX, lastY = -1;
+  var hue = 0
 
 
-  function drawLine(ctx,x,y,size) {
- 
-      if (lastX==-1) {
-          lastX=x;
-          lastY=y;
-        }
+  function drawLine(ctx, x, y, size) {
 
-      // r=0; g=0; b=0; a=255;
-      sat=100; lum=50; a=255;
+    if (lastX == -1) {
+      lastX = x;
+      lastY = y;
+    }
 
-      ctx.strokeStyle = "hsla("+hue+","+sat+"%,"+lum+"%,"+(a/255)+")";
+    // r=0; g=0; b=0; a=255;
+    sat = 100; lum = 50; a = 255;
 
-      // ctx.strokeStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
-      ctx.lineCap = "round";
-      ctx.beginPath();
+    ctx.strokeStyle = "hsla(" + hue + "," + sat + "%," + lum + "%," + (a / 255) + ")";
 
-      ctx.moveTo(lastX,lastY);
+    // ctx.strokeStyle = "rgba("+r+","+g+","+b+","+(a/255)+")";
+    ctx.lineCap = "round";
+    ctx.beginPath();
 
-      ctx.lineTo(x,y);
+    ctx.moveTo(lastX, lastY);
 
-      ctx.lineWidth = size;
-      ctx.stroke();
+    ctx.lineTo(x, y);
 
-      ctx.closePath();
+    ctx.lineWidth = size;
+    ctx.stroke();
 
-      lastX=x;
-      lastY=y;
+    ctx.closePath();
 
-      hue+=2;
-      if (hue>360) 
-	    hue=0;
-      
+    lastX = x;
+    lastY = y;
 
-  } 
-  function clearCanvas(canvas,ctx) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hue += 2;
+    if (hue > 360)
+      hue = 0;
+
+
+  }
+  function clearCanvas(canvas, ctx) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   function sketchpad_mouseDown() {
-      mouseDown=1;
-      drawLine(ctx,mouseX,mouseY,2);
+    mouseDown = 1;
+    drawLine(ctx, mouseX, mouseY, 2);
   }
 
   function sketchpad_mouseUp() {
-      mouseDown=0;
-      lastX=-1;
-      lastY=-1;
+    mouseDown = 0;
+    lastX = -1;
+    lastY = -1;
   }
 
-  function sketchpad_mouseMove(e) { 
-      getMousePos(e);
-      if (mouseDown==1) {
-          drawLine(ctx,mouseX,mouseY,2);
-      }
+  function sketchpad_mouseMove(e) {
+    getMousePos(e);
+    if (mouseDown == 1) {
+      drawLine(ctx, mouseX, mouseY, 2);
+    }
   }
 
   function getMousePos(e) {
-      if (!e)
-          var e = event;
+    if (!e)
+      var e = event;
 
-      if (e.offsetX) {
-          mouseX = e.offsetX;
-          mouseY = e.offsetY;
-      }
-      else if (e.layerX) {
-          mouseX = e.layerX;
-          mouseY = e.layerY;
-      }
-   }
+    if (e.offsetX) {
+      mouseX = e.offsetX;
+      mouseY = e.offsetY;
+    }
+    else if (e.layerX) {
+      mouseX = e.layerX;
+      mouseY = e.layerY;
+    }
+  }
 
   function sketchpad_touchStart() {
-      getTouchPos();
-      drawLine(ctx,touchX,touchY,2);
-      event.preventDefault();
+    getTouchPos();
+    drawLine(ctx, touchX, touchY, 2);
+    event.preventDefault();
   }
 
   function sketchpad_touchEnd() {
-      lastX=-1;
-      lastY=-1;
+    lastX = -1;
+    lastY = -1;
   }
 
-  function sketchpad_touchMove(e) { 
-      getTouchPos(e);
-      drawLine(ctx,touchX,touchY,2); 
-      event.preventDefault();
+  function sketchpad_touchMove(e) {
+    getTouchPos(e);
+    drawLine(ctx, touchX, touchY, 2);
+    event.preventDefault();
   }
 
   function getTouchPos(e) {
-      if (!e)
-          var e = event;
+    if (!e)
+      var e = event;
 
-      if(e.touches) {
-          if (e.touches.length == 1) { 
-              var touch = e.touches[0]; 
-              touchX=touch.pageX-touch.target.offsetLeft;
-              touchY=touch.pageY-touch.target.offsetTop;
-          }
+    if (e.touches) {
+      if (e.touches.length == 1) {
+        var touch = e.touches[0];
+        touchX = touch.pageX - touch.target.offsetLeft;
+        touchY = touch.pageY - touch.target.offsetTop;
       }
+    }
   }
 
   function init() {
-      canvas = document.getElementById('sketchpad');
-      if (canvas.getContext)
-          ctx = canvas.getContext('2d');
-      if (ctx) {
-          canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
-          canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
-          window.addEventListener('mouseup', sketchpad_mouseUp, false);
-          canvas.addEventListener('touchstart', sketchpad_touchStart, false);
-          canvas.addEventListener('touchend', sketchpad_touchEnd, false);
-          canvas.addEventListener('touchmove', sketchpad_touchMove, false);
-      }
+    canvas = document.getElementById('sketchpad');
+    if (canvas.getContext)
+      ctx = canvas.getContext('2d');
+    if (ctx) {
+      canvas.addEventListener('mousedown', sketchpad_mouseDown, false);
+      canvas.addEventListener('mousemove', sketchpad_mouseMove, false);
+      window.addEventListener('mouseup', sketchpad_mouseUp, false);
+      canvas.addEventListener('touchstart', sketchpad_touchStart, false);
+      canvas.addEventListener('touchend', sketchpad_touchEnd, false);
+      canvas.addEventListener('touchmove', sketchpad_touchMove, false);
+    }
   }
 </script>
 
 <body onload="init()">
-  
+
   <header id="navbar">
     <div class="container">
       <a href="index.html" id="logo">Iliana Vargas</a>
@@ -153,7 +153,7 @@
         <canvas id="sketchpad" width="475" height="575" style="background-color: white; border:2px solid;"></canvas>
         <img id="sketchpadimg" style="display:none;">
       </div>
-      
+
     </section>
   </div>
 
